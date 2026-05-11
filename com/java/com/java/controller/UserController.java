@@ -22,11 +22,11 @@ public String home(Model model) {
     
 }
 
-@GetMapping("/courses")
+@GetMapping("/courses.jsp")
 
 	public String coursePage(Model model) {
 	    model.addAttribute("courses", courseService.getAllCourses());
-	return "courses";
+	return "courses.jsp";
 }
 @GetMapping("/mycourses")
 public String mycoursesPage() {
