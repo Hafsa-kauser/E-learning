@@ -2,105 +2,149 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>Courses - Paatshala</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
     <style>
-        body {
-            font-family: Arial;
-            margin: 0;
-            background: #f5f7fb;
+        :root {
+            --royal-blue: #021945;
+            --ivory: #fffaf0;
+            --glass: rgba(255, 250, 240, 0.12);
+            --border: rgba(255, 255, 255, 0.25);
+            --text: #e5e7eb;
         }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(180deg, #f7f8fc, #eef2ff);
+        }
+
+        /* NAVBAR */
         .navbar {
             position: sticky;
             top: 0;
-            background: white;
-            padding: 15px 30px;
+            background: var(--royal-blue);
+            padding: 16px 30px;
             display: flex;
             justify-content: space-between;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            align-items: center;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            z-index: 1000;
         }
 
         .logo {
-            font-weight: bold;
-            color: #4f46e5;
+            color: white;
+            font-weight: 700;
             font-size: 20px;
         }
 
         .nav-links a {
-            margin-left: 20px;
+            margin-left: 18px;
             text-decoration: none;
-            color: #333;
+            color: var(--text);
+            transition: 0.3s;
         }
 
         .nav-links a:hover {
-            color: #4f46e5;
+            color: white;
         }
 
+        /* TITLE */
         .title {
             text-align: center;
-            margin: 30px 0;
-            font-size: 28px;
-            font-weight: bold;
+            margin: 35px 0;
+            font-size: 30px;
+            font-weight: 700;
+            color: var(--royal-blue);
         }
 
+        /* CONTAINER */
         .container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 20px;
+            gap: 22px;
             padding: 20px;
         }
 
+        /* GLASS CARD */
         .card {
             width: 280px;
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            transition: 0.3s;
+            padding: 22px;
+            border-radius: 16px;
+
+            background: var(--glass);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+
+            transition: 0.3s ease;
         }
 
         .card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px);
+            box-shadow: 0 16px 45px rgba(0,0,0,0.18);
         }
 
         .card h3 {
-            color: #4f46e5;
+            color: var(--royal-blue);
             margin-bottom: 10px;
+            font-weight: 700;
         }
 
         .card p {
             font-size: 14px;
-            color: #555;
+            color: #444;
+            margin-bottom: 10px;
         }
 
         .meta {
-            margin-top: 10px;
             font-size: 13px;
-            color: #777;
+            color: #555;
+            margin-bottom: 12px;
         }
 
+        /* BUTTON */
         .btn {
-            margin-top: 15px;
             width: 100%;
             padding: 10px;
+            border-radius: 10px;
             border: none;
-            background: #4f46e5;
+
+            background: var(--royal-blue);
             color: white;
-            border-radius: 8px;
+            font-weight: 600;
             cursor: pointer;
+
+            transition: 0.3s ease;
         }
 
         .btn:hover {
-            background: #3730a3;
+            background: #0b2a5a;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(2,25,69,0.35);
         }
 
+        .btn:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        /* RESPONSIVE */
         @media (max-width: 768px) {
             .container {
                 flex-direction: column;
@@ -135,20 +179,21 @@
             <div class="meta">
                 Duration: ${course.duration} hrs
             </div>
-<c:choose>
 
-    <c:when test="${enrolledIds != null and enrolledIds.contains(course.id)}">
-        <button class="btn" disabled>Enrolled</button>
-    </c:when>
+            <c:choose>
 
-    <c:otherwise>
-        <form action="${pageContext.request.contextPath}/enroll" method="post">
-            <input type="hidden" name="courseId" value="${course.id}">
-            <button class="btn" type="submit">Enroll</button>
-        </form>
-    </c:otherwise>
+                <c:when test="${enrolledIds != null and enrolledIds.contains(course.id)}">
+                    <button class="btn" disabled>Enrolled</button>
+                </c:when>
 
-</c:choose>
+                <c:otherwise>
+                    <form action="${pageContext.request.contextPath}/enroll" method="post">
+                        <input type="hidden" name="courseId" value="${course.id}">
+                        <button class="btn" type="submit">Enroll</button>
+                    </form>
+                </c:otherwise>
+
+            </c:choose>
 
         </div>
 
