@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 
 <!DOCTYPE html>
 <html>
@@ -14,7 +16,6 @@
             background: #f5f7fb;
         }
 
-      
         .navbar {
             position: sticky;
             top: 0;
@@ -41,7 +42,6 @@
             color: #4f46e5;
         }
 
-      
         .title {
             text-align: center;
             margin: 30px 0;
@@ -49,7 +49,6 @@
             font-weight: bold;
         }
 
-     
         .container {
             display: flex;
             flex-wrap: wrap;
@@ -113,20 +112,17 @@
 
 <body>
 
-
 <div class="navbar">
     <div class="logo">📚 Paatshala</div>
 
     <div class="nav-links">
-        <a href="index">Home</a>
-        <a href="courses">Courses</a>
-        <a href="mycourses">My Courses</a>
+        <a href="${pageContext.request.contextPath}/">Home</a>
+        <a href="${pageContext.request.contextPath}/courses">Courses</a>
+        <a href="${pageContext.request.contextPath}/mycourses">My Courses</a>
     </div>
 </div>
 
-
 <div class="title">Available Courses</div>
-
 
 <div class="container">
 
@@ -139,11 +135,20 @@
             <div class="meta">
                 Duration: ${course.duration} hrs
             </div>
+<c:choose>
 
-            <form action="enroll" method="post">
-                <input type="hidden" name="courseId" value="${course.id}">
-                <button class="btn" type="submit">Enroll</button>
-            </form>
+    <c:when test="${enrolledIds != null and enrolledIds.contains(course.id)}">
+        <button class="btn" disabled>Enrolled</button>
+    </c:when>
+
+    <c:otherwise>
+        <form action="${pageContext.request.contextPath}/enroll" method="post">
+            <input type="hidden" name="courseId" value="${course.id}">
+            <button class="btn" type="submit">Enroll</button>
+        </form>
+    </c:otherwise>
+
+</c:choose>
 
         </div>
 

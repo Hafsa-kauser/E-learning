@@ -130,7 +130,6 @@
         }
 
         @media(max-width:768px){
-
             .course-card{
                 padding:18px;
             }
@@ -138,7 +137,6 @@
             .title{
                 font-size:24px;
             }
-
         }
 
     </style>
@@ -152,9 +150,9 @@
     <div class="logo">📚 Paatshala</div>
 
     <div class="nav-links">
-        <a href="index.jsp">Home</a>
-        <a href="courses.jsp">Courses</a>
-        <a href="mycourses.jsp">My Courses</a>
+        <a href="${pageContext.request.contextPath}/">Home</a>
+        <a href="${pageContext.request.contextPath}/courses">Courses</a>
+        <a href="${pageContext.request.contextPath}/mycourses">My Courses</a>
     </div>
 
 </div>
@@ -165,7 +163,7 @@
 <!-- COURSES -->
 <div class="container">
 
-    <c:forEach var="course" items="${myCourses}" varStatus="status">
+    <c:forEach var="course" items="${myCourses}">
 
         <div class="course-card">
 
@@ -177,23 +175,24 @@
                 ▶ Watch Course
             </a>
 
-            <!-- TOPICS -->
-            <c:forEach var="topic" items="${course.topics}">
+            <c:forEach var="topic" items="${topicsMap[course.id]}">
 
                 <div class="topic">
+
                     <input type="checkbox"
                            class="topicCheck"
-                           data-course="${status.index}">
+                           data-course="${course.id}">
 
-                    ${topic}
+                    ${topic.topicTitle}
+
                 </div>
 
             </c:forEach>
 
-            <!-- PROGRESS BAR -->
+           
             <div class="progress-container">
                 <div class="progress-bar"
-                     id="progress-${status.index}">
+                     id="progress-${course.id}">
                     0%
                 </div>
             </div>
@@ -204,7 +203,7 @@
 
 </div>
 
-<!-- JS PROGRESS TRACKER -->
+
 <script>
 
     const checkboxes = document.querySelectorAll(".topicCheck");
@@ -229,7 +228,9 @@
             });
 
             const percent =
-                Math.round((checked / courseBoxes.length) * 100);
+                courseBoxes.length === 0
+                    ? 0
+                    : Math.round((checked / courseBoxes.length) * 100);
 
             const progressBar =
                 document.getElementById("progress-" + courseId);

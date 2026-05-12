@@ -55,4 +55,5 @@ public class Course {
 
 	    public void setVideolink(String videolink) {
 	        this.videolink= videolink;
-	    }}
+	    }
+	    }

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -189,9 +190,9 @@
     <div class="logo">📚 Paatshala</div>
 
     <div class="nav-links">
-        <a href="index">Home</a>
-        <a href="courses">Courses</a>
-        <a href="mycourses">My Courses</a>
+        <a href="${pageContext.request.contextPath}/">Home</a>
+        <a href="${pageContext.request.contextPath}/courses">Courses</a>
+        <a href="${pageContext.request.contextPath}/mycourses">My Courses</a>
     </div>
 </div>
 
